@@ -44,6 +44,8 @@ class Rooms extends Component {
                                 <th>Number</th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,6 +53,16 @@ class Rooms extends Component {
                                 rooms.map( room =>
                                     <tr>
                                         <td>{room.number}</td>
+                                        <td>
+                                            <Link to={{ pathname: `/rooms/${room.id}/items`}}>
+                                                <Button color="info">Items</Button>
+                                            </Link>
+                                        </td>
+                                        <td>
+                                            <Link to={{ pathname: `/rooms/${room.id}/orders`}}>
+                                                <Button color="info">Orders</Button>
+                                            </Link>
+                                        </td>
                                         <td>
                                             <Link to={{ pathname: `/hotels/` + this.props.match.params.hotelId + `/room/${room.id}`}}>
                                                 <Button color="primary">Edit</Button>

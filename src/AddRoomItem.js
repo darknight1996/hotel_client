@@ -2,18 +2,15 @@ import React, { Component } from 'react';
 import NavigationBar from './NavigationBar';
 import { Table, Container, Input, Button, Label, FormGroup, Form} from 'reactstrap';
 
-class AddGuest extends Component {
+class AddRoomItem extends Component {
 
 
     constructor(props){
         super(props)
   
         this.state = {
-            firstName: '',
-            lastName: '',
-            dateOfBirth: new Date(),
-            email: ''
-
+            name: '',
+            cost: ''
         }
   
          this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,7 +29,7 @@ class AddGuest extends Component {
     async handleSubmit(event){
         event.preventDefault();
 
-        await fetch(`http://localhost:8080/api/guest`, {
+        await fetch(`http://localhost:8080/api/room/` + this.props.match.params.roomId + '/item', {
           method : 'POST',
           headers : {
             'Accept': 'application/json',
@@ -40,7 +37,7 @@ class AddGuest extends Component {
           },
           body : JSON.stringify(this.state),
         }).then(() => {
-            this.props.history.push('../guests')
+            this.props.history.push('/rooms/' + this.props.match.params.roomId + '/items')
         });
       }
 
@@ -52,28 +49,18 @@ class AddGuest extends Component {
                 <NavigationBar />
                 <Container>
                     <br></br>
-                    <h1 style={{textAlign: 'center'}}>Add Guest</h1>
+                    <h1 style={{textAlign: 'center'}}>Add Room Item</h1>
                     <br></br>
                     <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for="firstName">First Name</Label>
-                            <Input type="text" name="firstName" id="firstName" required 
-                                onChange={this.handleChange}/>
+                    <FormGroup>
+                            <Label for="name">Name</Label>
+                            <Input type="text" name="name" id="name" required 
+                                onChange={this.handleChange} value={this.state.name} />
                         </FormGroup>
                         <FormGroup>
-                            <Label for="firstName">Last Name</Label>
-                            <Input type="text" name="lastName" id="lastName" required 
-                                onChange={this.handleChange}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="firstName">Birth Date</Label>
-                            <Input type="date" name="birthDate" id="birthDate" required 
-                                onChange={this.handleChange}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="firstName">Email</Label>
-                            <Input type="email" name="email" id="email" required 
-                                onChange={this.handleChange}/>
+                            <Label for="name">Cost</Label>
+                            <Input type="number" name="cost" id="cost" required 
+                                onChange={this.handleChange} value={this.state.cost} />
                         </FormGroup>
                         <FormGroup>
                             <Button color="primary" type="submit">Add</Button>
@@ -85,4 +72,4 @@ class AddGuest extends Component {
     }
 }
 
-export default AddGuest;
+export default AddRoomItem;

@@ -11,7 +11,8 @@ class EditHotel extends Component {
         this.state = {
             firstName: '',
             lastName: '',
-            birthDate: new Date()
+            birthDate: new Date(),
+            email: ''
         }
   
          this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,13 +31,14 @@ class EditHotel extends Component {
     async componentDidMount() {
         const response = await fetch('http://localhost:8080/api/guest/' + this.props.match.params.id, {method: 'GET'});
         const json = await response.json();
-
+        console.log(json);
         this.setState(
             {
                 id: json.id,
                 firstName: json.firstName,
                 lastName: json.lastName,
-                birthDate: json.birthDate
+                birthDate: json.birthDate,
+                email: json.email
             }
         );
     }
@@ -81,6 +83,11 @@ class EditHotel extends Component {
                             <Label for="firstName">Birth Date</Label>
                             <Input type="date" name="birthDate" id="birthDate" required 
                                 onChange={this.handleChange} value={this.state.birthDate} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="firstName">Email</Label>
+                            <Input type="email" name="email" id="email" required 
+                                onChange={this.handleChange}/>
                         </FormGroup>
                         <FormGroup>
                             <Button color="primary" type="submit">Save</Button>

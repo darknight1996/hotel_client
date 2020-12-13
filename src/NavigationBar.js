@@ -16,6 +16,9 @@ class NavigationBar extends Component {
                     <NavItem>
                       <NavLink href="/guests/">Guests</NavLink>
                     </NavItem> 
+                    <NavItem>
+                      <NavLink href="/orders/all">Orders</NavLink>
+                    </NavItem> 
                   </Nav>
               </Navbar>
             </div>

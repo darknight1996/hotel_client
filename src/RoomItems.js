@@ -3,66 +3,62 @@ import NavigationBar from './NavigationBar';
 import { Table, Container, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-class Guests extends Component {
+class RoomItems extends Component {
     state = {
-        guests : []
+        items : []
     }
 
     async componentDidMount() {
-        const response = await fetch('http://localhost:8080/api/guest', {method: 'GET'});
+        const response = await fetch('http://localhost:8080/api/room/' + this.props.match.params.roomId + '/item', {method: 'GET'});
         const json = await response.json();
 
         this.setState(
-           {guests : json}
+           {items : json}
         );
     }
 
     async delete(id) {
-        await fetch(`http://localhost:8080/api/guest/${id}` , {
+        await fetch(`http://localhost:8080/api/room/item/${id}` , {
             method: 'DELETE'
           }).then(() => {
             this.setState({
-                guests: this.state.guests.filter(guest => guest.id !== id)
+                items: this.state.items.filter(item => item.id !== id)
               });
           });
     }
 
     render() {
-        const guests = this.state.guests;
+        const items = this.state.items;
 
         return(
             <div>
                 <NavigationBar />
                 <Container>
                     <br></br>
-                    <h1 style={{textAlign: 'center'}}>Guests</h1>
+                    <h1 style={{textAlign: 'center'}}>Room Items</h1>
                     <br></br>
                     <Table hover>
                         <thead>
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Birth Date</th>
-                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Cost</th>
                                 <th></th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                guests.map( guest =>
+                                items.map( item =>
                                     <tr>
-                                        <td>{guest.firstName}</td>
-                                        <td>{guest.lastName}</td>
-                                        <td>{guest.birthDate}</td>
-                                        <td>{guest.email}</td>
+                                        <td>{item.name}</td>
+                                        <td>${item.cost}</td>
                                         <td>
-                                            <Link to={{ pathname: `/guests/edit/${guest.id}`}}>
+                                            <Link to={{ pathname: '/rooms/' + this.props.match.params.roomId + `/item/${item.id}`}}>
                                                 <Button color="primary">Edit</Button>
                                             </Link>
                                         </td>
                                         <td>
-                                            <Button color="secondary" onClick={() => {if (window.confirm('Are you sure you want to delete this guest?')) this.delete(guest.id)}}>
+                                            <Button color="secondary" onClick={() => {if (window.confirm('Are you sure you want to delete this item?')) this.delete(item.id)}}>
                                                 Delete
                                             </Button>
                                         </td>
@@ -72,8 +68,8 @@ class Guests extends Component {
                         </tbody>
                     </Table>
                     <br></br>
-                    <Link to={{ pathname: '/guests/add'}}>
-                        <Button color="primary">Add Guest</Button>
+                    <Link to={{ pathname: '/rooms/' + this.props.match.params.roomId + '/item'}}>
+                        <Button color="primary">Add Room Item</Button>
                     </Link>
                 </Container>
             </div>    
@@ -81,4 +77,4 @@ class Guests extends Component {
     }
 }
 
-export default Guests;
+export default RoomItems;
