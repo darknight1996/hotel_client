@@ -31,7 +31,7 @@ class EditHotel extends Component {
     async componentDidMount() {
         const response = await fetch('http://localhost:8080/api/guest/' + this.props.match.params.id, {method: 'GET'});
         const json = await response.json();
-        console.log(json);
+
         this.setState(
             {
                 id: json.id,

@@ -34,6 +34,7 @@ class AddRoomOrder extends Component {
 
         this.setState(
             {
+                guestId: json[0].id,
                 guests: json
             }
         );
