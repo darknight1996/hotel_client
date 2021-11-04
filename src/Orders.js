@@ -6,7 +6,6 @@ class Orders extends Component {
     state = {
         orders : []
     }
-
     async componentDidMount() {
         const response = await fetch('http://localhost:8080/api/room/order/all', {method: 'GET'});
         const json = await response.json();
@@ -14,6 +13,16 @@ class Orders extends Component {
         this.setState(
            {orders : json}
         );
+    }
+
+    async delete(id) {
+        await fetch(`http://localhost:8080/api/room/order/${id}` , {
+            method: 'DELETE'
+          }).then(() => {
+            this.setState({
+                orders: this.state.orders.filter(order => order.id !== id)
+              });
+          });
     }
 
     render() {
@@ -45,6 +54,11 @@ class Orders extends Component {
                                         <td>{order[2]}</td>
                                         <td>{order[3]}</td>
                                         <td>{order[4]} {order[5]}</td>
+                                        <td>
+                                            <Button color="secondary" onClick={() => {if (window.confirm('Are you sure you want to delete this item?')) this.delete(order.id)}}>
+                                                Delete
+                                            </Button>
+                                        </td>
                                     </tr>
                                 )
                             }
